@@ -4,6 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
+import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
@@ -24,15 +25,15 @@ private val retrofit = Retrofit.Builder()
 
 interface NasaApiService {
     @GET("neo/rest/v1/feed")
-    suspend fun getAsteroids(@Query("api_key") type: String): List<Asteroid>
+    fun getAsteroids(@Query("api_key") token: String): Deferred<String>
 
     @GET("planetary/apod")
-    suspend fun getImageOfTheDay(@Query("api_key") type: String): String
+    fun getImageOfTheDay(@Query("api_key") token: String): Deferred<String>
 }
 
 
 object NasaApi {
-    val retrofitService: NasaApiService by lazy {
+    val asteroidService: NasaApiService by lazy {
         retrofit.create(NasaApiService::class.java)
     }
 }
