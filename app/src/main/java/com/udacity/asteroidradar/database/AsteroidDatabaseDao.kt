@@ -6,13 +6,13 @@ import androidx.room.*
 @Dao
 interface AsteroidDatabaseDao {
     @Query("select * from asteroids")
-    fun getAsteroids(): LiveData<List<Asteroid>>
+    fun getAsteroids(): LiveData<List<AsteroidEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg asteroids: List<Asteroid>)
+    suspend fun insertAll(vararg asteroidEntities: AsteroidEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(asteroid: Asteroid)
+    suspend fun insert(asteroidEntity: AsteroidEntity)
 
     // TODO add delete
 }

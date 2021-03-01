@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "asteroids")
-data class Asteroid(
+data class AsteroidEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val codename: String,
@@ -21,4 +21,4 @@ data class Asteroid(
     val distanceFromEarth: Double,
     @ColumnInfo(name = "is_potentially_hazardous")
     val isPotentiallyHazardous: Boolean
-) {}
+)
