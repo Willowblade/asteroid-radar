@@ -32,6 +32,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 app:imgUrl="@{viewModel.pictureOfDay}"
+                android:contentDescription="The NASA picture of the day"
                 tools:srcCompat="@drawable/asteroid_safe" />
 
             <TextView
