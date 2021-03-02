@@ -2,6 +2,7 @@ package com.udacity.asteroidradar
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -15,8 +16,10 @@ import java.lang.Exception
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+        imageView.contentDescription = imageView.context.getString(R.string.asteroid_hazardous_icon)
     } else {
         imageView.setImageResource(R.drawable.ic_status_normal)
+        imageView.contentDescription = imageView.context.getString(R.string.safe_asteroid_icon)
     }
 }
 
@@ -24,9 +27,16 @@ fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
     if (isHazardous) {
         imageView.setImageResource(R.drawable.asteroid_hazardous)
+        imageView.contentDescription = imageView.context.getString(R.string.asteroid_hazardous)
     } else {
         imageView.setImageResource(R.drawable.asteroid_safe)
+        imageView.contentDescription = imageView.context.getString(R.string.safe_asteroid)
     }
+}
+
+@BindingAdapter("asteroidContentDescription")
+fun bindRecycleViewToAsteroid(constrainedLayout: ConstraintLayout, asteroid: Asteroid) {
+    constrainedLayout.contentDescription = "Asteroid ${asteroid.codename} will pass at ${asteroid.closeApproachDate}, confirm for details."
 }
 
 @BindingAdapter("astronomicalUnitText")
