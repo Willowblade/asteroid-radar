@@ -13,6 +13,7 @@ class AsteroidAdapter(private val onClickListener: OnClickListener) : ListAdapte
         RecyclerView.ViewHolder(binding.root) {
         fun bind(asteroid: Asteroid) {
             binding.asteroid = asteroid
+            binding.executePendingBindings()
         }
     }
 
@@ -31,7 +32,7 @@ class AsteroidAdapter(private val onClickListener: OnClickListener) : ListAdapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidViewHolder {
-        val itemBinding = AsteroidListItemBinding.inflate(LayoutInflater.from(parent.context))
+        val itemBinding = AsteroidListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return AsteroidViewHolder(itemBinding)
     }
 

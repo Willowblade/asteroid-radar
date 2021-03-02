@@ -18,33 +18,28 @@
 package com.udacity.asteroidradar.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import com.udacity.asteroidradar.Asteroid
+import androidx.lifecycle.MutableLiveData
 import com.udacity.asteroidradar.Constants
-import com.udacity.asteroidradar.api.getToday
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
-import com.udacity.asteroidradar.asDatabaseModel
+import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.api.parsePictureOfTheDayResult
 import com.udacity.asteroidradar.database.AsteroidDatabase
-import com.udacity.asteroidradar.database.asDomainModel
 import com.udacity.asteroidradar.network.NasaApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
-class AsteroidRepository(private val database: AsteroidDatabase) {
-    val asteroids: LiveData<List<Asteroid>> = Transformations.map(database.asteroidDatabaseDao.getAsteroids()) {
-        it.asDomainModel()
-    }
-
-    suspend fun refreshAsteroids() {
+class PictureOfDayRepository() {
+    suspend fun getPictureOfDay() : PictureOfDay? {
+        var pictureOfDay: PictureOfDay? = null
         withContext(Dispatchers.IO) {
             try {
-                val asteroidsString = NasaApi.asteroidService.getAsteroids(Constants.API_TOKEN, null, null).await()
-                val asteroids = parseAsteroidsJsonResult(JSONObject(asteroidsString))
-                database.asteroidDatabaseDao.insertAll(*asteroids.asDatabaseModel())
+                val pictureOfDayString = NasaApi.asteroidService.getPictureOfTheDay(Constants.API_TOKEN).await()
+                println("Fetched picture of day string! $pictureOfDayString")
+                pictureOfDay = parsePictureOfTheDayResult(pictureOfDayString)
             } catch (e: Exception) {
-                println("Couldn't fetch asteroids, error $e")
+                println("Couldn't fetch picture of the day, error $e")
             }
+            null
         }
+        return pictureOfDay
     }
 }

@@ -31,7 +31,8 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/asteroid_safe" />
+                app:imgUrl="@{viewModel.pictureOfDay}"
+                tools:srcCompat="@drawable/asteroid_safe" />
 
             <TextView
                 android:id="@+id/textView"
@@ -41,7 +42,7 @@
                 android:background="#55010613"
                 android:padding="16dp"
                 android:text="@string/image_of_the_day"
-                android:textColor="@android:color/white"
+                android:textColor="@color/default_text_color"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </FrameLayout>
@@ -57,6 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day_layout"
             app:listData="@{viewModel.asteroids}"
+            app:filter="@{viewModel.filter}"
             tools:itemCount="16"
             tools:listitem="@layout/asteroid_list_item" />
 

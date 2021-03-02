@@ -1,7 +1,11 @@
 package com.udacity.asteroidradar.api
 
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.Constants
+import com.udacity.asteroidradar.PictureOfDay
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,7 +46,23 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     return asteroidList
 }
 
-private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
+private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+private val pictureOfDayAdapter = moshi.adapter(PictureOfDay::class.java)
+
+
+fun parsePictureOfTheDayResult(json: String): PictureOfDay? {
+    return pictureOfDayAdapter.fromJson(json)
+}
+
+fun getToday(): String {
+    val calendar = Calendar.getInstance()
+    val currentTime = calendar.time
+    val dateFormat = SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault())
+    return dateFormat.format(currentTime)
+}
+
+
+fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()
