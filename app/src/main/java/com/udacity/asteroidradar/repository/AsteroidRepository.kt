@@ -37,9 +37,14 @@ class AsteroidRepository(private val database: AsteroidDatabase) {
 
     suspend fun refreshAsteroids() {
         withContext(Dispatchers.IO) {
-            val asteroidsString = NasaApi.asteroidService.getAsteroids(Constants.API_TOKEN).await()
-            val asteroids = parseAsteroidsJsonResult(JSONObject(asteroidsString))
-            database.asteroidDatabaseDao.insertAll(*asteroids.asDatabaseModel())
+            try {
+                val asteroidsString = NasaApi.asteroidService.getAsteroids(Constants.API_TOKEN).await()
+                val asteroids = parseAsteroidsJsonResult(JSONObject(asteroidsString))
+                database.asteroidDatabaseDao.insertAll(*asteroids.asDatabaseModel())
+                println("Fetched asteroids!")
+            } catch (e: Exception) {
+                println("Couldn't fetch asteroids, error $e")
+            }
         }
     }
 }

@@ -17,12 +17,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-//    private val _asteroids = MutableLiveData<List<Asteroid>>(listOf(
-//        Asteroid(1, "Testeroid", "1234-21-12", 1.0, 2.0, 3.0, 100.0, true),
-//        Asteroid(2, "Testeroid 2", "1234-21-13", 2.0, 2.0, 3.0, 100.0, true),
-//        Asteroid(3, "Testeroid 3", "1234-21-14", 3.0, 2.0, 3.0, 100.0, true),
-//    ))
-//    private val _asteroids = MutableLiveData<List<Asteroid>>()
     val asteroids = repository.asteroids
 
 
